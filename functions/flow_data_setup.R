@@ -117,7 +117,7 @@ flow_setup <- function(nx = 200, ny = 200, n_curves = 15000, size = 2,
 }
 
 # set up another flow field with different parameters
-# aims: try and make sure there isn't an overlap of particles
-
+# aim 1: try and make sure there isn't an overlap of particles
+# aim 2: have particles coming in and out using larger limits
 
 
