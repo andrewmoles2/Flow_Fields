@@ -6,7 +6,7 @@ library(here)
 library(MetBrewer)
 library(RColorBrewer)
 
-source(file = here("flow-fields","functions","flow_data_setup.R"))
+source(file = here("functions","flow_data_setup.R"))
 
 # test output - should see a data frame with 9 cols
 (test <- flow_setup())
@@ -43,7 +43,7 @@ streams <- test %>%
   theme(legend.position = "none") 
 streams
 
-ggsave(filename = "flow-fields/outputs/streams.png", plot = streams,
+ggsave(filename = "outputs/streams.png", plot = streams,
        dpi = 600, units = "px", width = 3525, height = 3525)
 
 # more tests with different types of noise: perlin, worley, cubic, simplex, or value ----
@@ -78,13 +78,13 @@ anim_flow <- flow_setup(noise = "simplex", n_curves = 7500, n_steps = 50, step_l
 gganimate::animate(anim_flow, fps = 20, nframes = 150, 
                    end_pause = 10, rewind = TRUE)
 
-gganimate::anim_save("flow-fields/outputs/running_to_streams.gif")
+gganimate::anim_save("outputs/running_to_streams.gif")
 
 # test using the size and colour variables ----
 # works best with ncurve < 1000
 # note: that it takes ages with ncurve > 10,000
 
-paint_strokes <- flow_setup(n_curves = 175, noise = "perlin", seed = 12, n_steps = 25) %>% 
+paint_strokes <- flow_setup(n_curves = 150, noise = "cubic", seed = 12, n_steps = 25) %>% 
   ggplot() +
   geom_segment(aes(x = x_start, y = y_start, xend = x_end, yend = y_end, 
                    group = l, colour = colour, size = size),
@@ -104,9 +104,9 @@ flow_spiral <- flow_setup(n_curves = 150, noise = "cubic", seed = 19, n_steps = 
   theme_void()
 flow_spiral
   
-ggsave(filename = "flow-fields/outputs/paint_strokes.png", plot = paint_strokes,
+ggsave(filename = "outputs/paint_strokes.png", plot = paint_strokes,
        dpi = 500, units = "px", width = 3525, height = 3525)
-ggsave(filename = "flow-fields/outputs/flow_spiral.png", plot = flow_spiral,
+ggsave(filename = "outputs/flow_spiral.png", plot = flow_spiral,
        dpi = 500, units = "px", width = 3525, height = 3525)
 
 # what if I want to sample from my main data I made earlier? ----
@@ -148,9 +148,9 @@ wave_02 <- flow_setup(n_curves = 700, noise = "cubic", fractal = 'none',
 wave_01
 wave_02
 
-ggsave(filename = "flow-fields/outputs/waves_01.png", plot = wave_01,
+ggsave(filename = "outputs/waves_01.png", plot = wave_01,
        dpi = 500, units = "px", width = 3525, height = 3525)
-ggsave(filename = "flow-fields/outputs/wave_02.png", plot = wave_02,
+ggsave(filename = "outputs/wave_02.png", plot = wave_02,
        dpi = 500, units = "px", width = 3525, height = 3525)
 
 # annimated version
@@ -170,7 +170,7 @@ moving_wave <- flow_setup(n_curves = 200, noise = "cubic", fractal = 'none', oct
 gganimate::animate(moving_wave, fps = 25, nframes = 150, 
                    end_pause = 5, rewind = FALSE)
 
-gganimate::anim_save("flow-fields/outputs/moving_wave.gif")
+gganimate::anim_save("outputs/moving_wave.gif")
 
 
 # larger full flow with lines ----
@@ -183,6 +183,6 @@ streams_02 <- test |>
   theme_void()
 streams_02
 
-ggsave(filename = "flow-fields/outputs/streams_02.png", plot = streams_02,
+ggsave(filename = "outputs/streams_02.png", plot = streams_02,
        dpi = 500, units = "px", width = 3525, height = 3525)
 
