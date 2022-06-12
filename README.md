@@ -12,16 +12,16 @@ Repository for making and testing out different types of flow fields. Some examp
 ![flow like wave 1](outputs/wave_02.png)
 ![flow like wave 2](outputs/waves_01.png)
 
+This one moves as a wave, and has a shadow 
+![wave with shadow](outputs/moving_wave.gif)
+
 ## Thinning out the flow field to it looks like paint strokes
 
 ![slimmed down flow with changing size](outputs/paint_strokes.png)
 
 ## Making flow field gifs!
-
 This one starts as a grid then *flows* away nicely
 ![from grid to flow](outputs/running_to_steams.gif)
 
-This one moves as a wave, and has a shadow 
-![wave with shadow](outputs/moving_wave.gif)
 
 
