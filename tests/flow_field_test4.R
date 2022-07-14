@@ -6,7 +6,7 @@ library(here)
 # set up
 nx = 200
 ny = 200
-n_curves = 15000
+n_curves = 1500
 n_steps = 20
 step_length = 1
 limit = n_steps * step_length
@@ -25,8 +25,10 @@ pnt <- array(noise, dim = c(nx, ny),
              dimnames = list(1:nx, 1:ny)) * pi * 4
 
 # mat for lines (start and end points)
-dat <- matrix(nrow = n_curves * n_steps, ncol = 8)
-colnames(dat) <- c("x_start", "y_start", "a", "x_end", "y_end", "l", "i", "colour")
+#dat <- matrix(nrow = n_curves * n_steps, ncol = 8)
+#colnames(dat) <- c("x_start", "y_start", "a", "x_end", "y_end", "l", "i", "colour")
+dat <- matrix(nrow = n_curves * n_steps, ncol = 7)
+colnames(dat) <- c("x_start", "y_start", "a", "x_end", "y_end", "l", "i")
 
 # loop for calculations
 for (l in 1:n_curves-1) { # loop through lines
@@ -50,7 +52,7 @@ for (l in 1:n_curves-1) { # loop through lines
     dat[i + l * n_steps, 5] = y_end
     dat[i + l * n_steps, 6] = l
     dat[i + l * n_steps, 7] = i
-    dat[i + l * n_steps, 8] = colour
+#    dat[i + l * n_steps, 8] = colour
     # make starting point from prev end point with new angle
     x_start = x_end
     y_start = y_end
