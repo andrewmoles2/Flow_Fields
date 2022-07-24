@@ -24,5 +24,14 @@ This one starts as a grid then *flows* away nicely
 
 <img align="center" alt="from grid to flow" width="300px" src="https://raw.githubusercontent.com/andrewmoles2/Flow_Fields/main/outputs/running_to_streams.gif" />
 
+## Removal of nearby lines
+A fun technique is to remove any nearby lines/paths in the flow field. I've used knn for this, but I'm sure there are other ways of doing this! 
+
+![example of using knn to remove nearby particles](./outputs/removal_demo.png)
+
+This technique looks best when it has an image added behind it. Here I've added an image of horseshoe bend in the USA I took back in 2019. 
+
+![add image behind removed flow](./outputs/horseshoe_bend.png)
+
 
 

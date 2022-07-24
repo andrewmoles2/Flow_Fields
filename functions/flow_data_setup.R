@@ -2,7 +2,7 @@ library(ambient)
 
 # set up standard flow field ----
 flow_setup <- function(nx = 200, ny = 200, n_curves = 15000, size = 2,
-                       n_steps = 20, step_length = 1, noise = "perlin",
+                       n_steps = 20, step_length = 1, noise = c("perlin", "worley", "cubic", "simplex", "value"),
                        frequency = 0.01, fractal = "fbm", octaves = 3,
                        pal = c("#6d2f20","#b75347","#df7e66","#e09351","#edc775","#94b594","#224b5e"),
                        seed = 12) {
@@ -21,7 +21,7 @@ flow_setup <- function(nx = 200, ny = 200, n_curves = 15000, size = 2,
   pal <- pal
   
   # next we select the type of noise and create a matrix with nx * ny, vals = angle of noise
-  noise <- noise
+  noise <- match.arg(noise)
   
   if (noise == "perlin") {
     pnt <- array(ambient::noise_perlin(c(nx, ny),
@@ -120,4 +120,26 @@ flow_setup <- function(nx = 200, ny = 200, n_curves = 15000, size = 2,
 # aim 1: try and make sure there isn't an overlap of particles
 # aim 2: have particles coming in and out using larger limits
 
+# minimum distance with no overlap
+library(FNN)
+
+remove_overlap <- function(flow_data, k_max = 8) {
+  # use data made by flow_setup() function
+  # set up empty vector
+  x <- vector("double", nrow(flow_data[, 1:2]))
+  # min knn distance (found 2 is good amount)
+  knnDist <- 2
+  
+  # loop over each x_start and y_start and find nearest k. Save back into x
+  for (knear in seq_along(1:nrow(flow_data))) {
+    x[knear] <- FNN::knnx.dist(flow_data[, 1:2], dat_df[knear, 1:2],
+                               k = k_max, algorithm = "kd_tree")[k_max] < knnDist
+  }
+  # add x back to the flow data
+  flow_data$knn <- x
+  
+  flow_data <- subset(flow_data, knn != 1)
+  
+  return(flow_data)
+}
 

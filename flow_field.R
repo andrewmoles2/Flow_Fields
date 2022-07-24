@@ -5,12 +5,12 @@ library(gganimate)
 library(here)
 library(MetBrewer)
 library(RColorBrewer)
+library(patchwork)
 
 source(file = here("functions","flow_data_setup.R"))
 
 # test output - should see a data frame with 9 cols
 (test <- flow_setup())
-
 # plot set-up
 curve_stroke <- 1
 curve_alpha <- 0.1
@@ -185,4 +185,47 @@ streams_02
 
 ggsave(filename = "outputs/streams_02.png", plot = streams_02,
        dpi = 500, units = "px", width = 3525, height = 3525)
+
+# using the remove_overlap function ----
+dat_df <- flow_setup(n_curves = 1000, noise = "cubic")
+
+dat_df_rem <- remove_overlap(dat_df, k_max = 12)
+
+p1 <- dat_df_rem |>
+  ggplot(aes(x_start, y_start, group = l, colour = colour)) + 
+  geom_path() +
+  scale_colour_identity() +
+  theme_void() +
+  ggtitle("post-removal")
+p2 <- dat_df |>
+  ggplot(aes(x_start, y_start, group = l, colour = colour)) + 
+  geom_path() +
+  scale_colour_identity() +
+  theme_void() +
+  ggtitle("pre-removal")
+
+removal_demo <- wrap_plots(p2, p1) +
+  plot_annotation(title = str_wrap("Pre and post removal of overlapping particles using
+                  k-nearest neighbor distance searching algorithms", width = 65))
+removal_demo
+ggsave(filename = "outputs/removal_demo.png", plot = removal_demo,
+       dpi = 420, units = "px", width = 3525, height = 3525)
+
+# adding image behind removed flow field 
+library(ggimage)
+
+background_img_path <- "images/0b2bcf5c-7eb5-4523-94e0-fc5004154ac9.JPG"
+background2_img_path <- "images/IMG_6903.jpg"
+
+p3 <- dat_df_rem |>
+  ggplot(aes(x_start, y_start, group = l)) + 
+  geom_path(colour = "white") +
+  scale_colour_identity() +
+  theme_void()
+
+horseshoe_bend <- ggimage::ggbackground(gg = p3, background = background2_img_path)
+horseshoe_bend
+
+ggsave(filename = "outputs/horseshoe_bend.png", plot = horseshoe_bend,
+       dpi = 420, units = "px", width = 3525, height = 3525)
 

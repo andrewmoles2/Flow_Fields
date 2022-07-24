@@ -129,13 +129,13 @@ test <- knnx.dist(dat_df[, 1:2], dat_df[500, 1:2], k = 21)[21] < knnDist
 test <- vector("double", nrow(dat_df[ ,1:2]))
 
 for (k in seq_along(1:nrow(dat_df))) {
-  test[k] <- knnx.dist(dat_df[, 1:2], dat_df[k, 1:2], k = 8)[8] < knnDist
+  test[k] <- knnx.dist(dat_df[, 1:2], dat_df[k, 1:2], k = 12, algorithm = "cover_tree")[8] < knnDist
 }
-
+# algorithm=c("kd_tree", "cover_tree", "CR", "brute")
 dat_df$knn <- test
 
 dat_df %>%
-  filter(test != 1) %>%
+  filter(knn != 1) %>%
   ggplot(aes(x_start, y_start, group = l)) + geom_path()
 
 
