@@ -6,7 +6,8 @@ Repository for making and testing out different types of flow fields. Some examp
 
 ![flow with geom_path](./outputs/streams_02.png)
 ![flow with geom_segment](./outputs/streams.png)
-
+![flow with light colours](./outputs/streams_03.png)
+ 
 ## Messing with parameters to make wave like flows
 
 ![flow like wave 1](./outputs/wave_02.png)

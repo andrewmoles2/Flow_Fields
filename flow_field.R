@@ -8,6 +8,7 @@ library(RColorBrewer)
 library(patchwork)
 
 source(file = here("functions","flow_data_setup.R"))
+source(file = here("functions","coolors.R"))
 
 # test output - should see a data frame with 9 cols
 (test <- flow_setup())
@@ -186,7 +187,22 @@ streams_02
 ggsave(filename = "outputs/streams_02.png", plot = streams_02,
        dpi = 500, units = "px", width = 3525, height = 3525)
 
+# with transparent background + pastels
+pal <- coolors('https://coolors.co/e8af91-ffc09f-ffd799-ffee93-fcf5c7-cee2d0-a0ced9-adf7b6-d8f7b5')
+flow_setup(noise = "value", seed = 19, pal = pal, step_length = 1.5, n_steps = 10) |>
+  ggplot(aes(x = x_start, y = y_start,group = l, 
+             colour = colour)) +
+  geom_path(size = 0.55, alpha = 0.8, 
+            lineend = "round", linejoin = "round", linemitre = 3) +
+  scale_colour_identity() +
+  theme_void() -> streams_03
+streams_03
+
+ggsave(filename = "outputs/streams_03.png", plot = streams_03,
+       dpi = 500, units = "px", width = 3525, height = 3525)
+
 # using the remove_overlap function ----
+# warning: remove overlap function takes a while, and even longer for more n_curves you have...!
 dat_df <- flow_setup(n_curves = 1000, noise = "cubic")
 
 dat_df_rem <- remove_overlap(dat_df, k_max = 12)
